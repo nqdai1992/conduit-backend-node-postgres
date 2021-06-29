@@ -3,7 +3,7 @@ import AppRequest from '@/application/app-request.interface';
 import { IUserSignInRequestBody } from './user-signin.interface';
 import UserSignInRequestDTO from './user-signin.request.dto';
 import UserSigninService from './user-signin.service';
-import UserUserResponseDTO from '@/interfaces/user.response.dto';
+import UserUserResponseDTO from '@/dtos/user.response.dto';
 
 
 const router = Router();

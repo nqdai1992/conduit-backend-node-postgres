@@ -1,16 +1,10 @@
 import { IUser } from "@/domain/entities/user.entity"
 
 export interface IUserResponseDTO {
-    user: {
-        email: string,
-        token: string,
-        username: string,
-        bio: string,
-        image: string,
-      }  
+    user: Omit<IUser, "password">
 }
 
-const UserUserResponseDTO = (userEnity: IUser): IUserResponseDTO => {
+const UserResponseDTO = (userEnity: IUser): IUserResponseDTO => {
   const { email, token, username, bio, image} = userEnity
 
   return {
@@ -20,4 +14,4 @@ const UserUserResponseDTO = (userEnity: IUser): IUserResponseDTO => {
   }
 }
 
-export default UserUserResponseDTO
+export default UserResponseDTO

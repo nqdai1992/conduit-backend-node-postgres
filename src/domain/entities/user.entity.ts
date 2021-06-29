@@ -20,10 +20,15 @@ export interface UserEntity {
 const User = (initUser: IUser): UserEntity => ({
   toObject: () => initUser,
   hashPassword: async () => User({ ...initUser, password: await hash(initUser.password) }),
-  updateUser: (updateUser: Omit<IUser, "password">) => User({ ...initUser, ...updateUser }),
+  updateUser: (updateUser: Omit<IUser, "password">) => {
+    const {image, bio} = updateUser
+    
+    return User({ ...initUser, image, bio })
+  },
   generateToken: () => {
     const payload = { username: initUser.username };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+    
     return User({ ...initUser, token})
   }
 })
