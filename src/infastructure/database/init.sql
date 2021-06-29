@@ -6,7 +6,6 @@ CREATE TABLE users (
     username VARCHAR(255) UNIQUE,
     bio TEXT,
     image TEXT,
-    token VARCHAR(1000) UNIQUE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -58,3 +57,8 @@ CREATE TABLE articles_tags (
     PRIMARY KEY(article_id, tag_id)
 );
 
+DROP TABLE IF EXISTS tokens CASCADE;
+CREATE TABLE tokens (
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    token VARCHAR(1000) PRIMARY KEY UNIQUE NOT NULL
+);
