@@ -1,7 +1,8 @@
+import { Router } from 'express'
 import { IUser } from '@/domain/entities/user.entity';
 import UserResponseDTO from '@/dtos/user.response.dto';
 import { authenMiddleware } from '@/middlewares/auth.middleware';
-import { Router } from 'express'
+
 
 const router = Router();
 const path = '/api/user'
