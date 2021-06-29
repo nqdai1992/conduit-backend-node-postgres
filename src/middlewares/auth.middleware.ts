@@ -6,8 +6,8 @@ passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET
 }, function(jwt_payload, done) {
-  const email = jwt_payload.email
-  db.query('SELECT * FROM users WHERE email=$1', [email], (err, res) => {
+  const userId = jwt_payload.id
+  db.query('SELECT * FROM users WHERE id=$1', [userId], (err, res) => {
     const user = res.rows[0]
 
     if (err) {

@@ -2,6 +2,7 @@ import { hash } from "@/utils/password";
 import jwt from 'jsonwebtoken'
 
 export interface IUser {
+  id?: number,
   email: string;
   password?: string;
   username: string;
@@ -13,20 +14,28 @@ export interface IUser {
 export interface UserEntity {
   toObject: () => IUser;
   hashPassword: () => Promise<UserEntity>;
-  updateUser: (updateUser: Omit<IUser, "password">) => UserEntity;
+  updateUser: (updateUser: IUser) => Promise<UserEntity>;
   generateToken: () => UserEntity;
 }
 
 const User = (initUser: IUser): UserEntity => ({
   toObject: () => initUser,
   hashPassword: async () => User({ ...initUser, password: await hash(initUser.password) }),
-  updateUser: (updateUser: Omit<IUser, "password">) => {
-    const {image, bio} = updateUser
+  updateUser: async (updateUser: IUser) => {
+    const {email, username, password, image, bio} = updateUser
+    const hashPassword = password ? await hash(password) : initUser.password
     
-    return User({ ...initUser, image, bio })
+    return User({ 
+      ...initUser, 
+      image: image || initUser.image,  
+      bio: bio || initUser.bio,
+      username: username || initUser.username,
+      password: hashPassword,
+      email: email || initUser.email
+    })
   },
   generateToken: () => {
-    const payload = { username: initUser.username };
+    const payload = { id: initUser.id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
     
     return User({ ...initUser, token})
