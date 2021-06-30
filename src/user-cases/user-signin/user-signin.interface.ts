@@ -4,8 +4,5 @@ export interface IUserSignInRequestDTO {
 }
 
 export interface IUserSignInRequestBody {
-    user: {
-        email: string,
-        password: string
-    }
+    user: IUserSignInRequestDTO
 }

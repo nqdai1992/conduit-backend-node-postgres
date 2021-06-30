@@ -5,7 +5,13 @@ export interface IUserResponseDTO {
 }
 
 const UserResponseDTO = (userEnity: IUser): IUserResponseDTO => {
-  const { email, token, username, bio, image} = userEnity
+  const { 
+    email = null, 
+    token = null, 
+    username = null, 
+    bio = null, 
+    image = null
+  } = userEnity
 
   return {
     user: {

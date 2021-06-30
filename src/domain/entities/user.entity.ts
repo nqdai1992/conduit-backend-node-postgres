@@ -11,17 +11,25 @@ export interface IUser {
   token?: string;
 }
 
+export interface IUserUpdateParams {
+  email?: string;
+  password?: string;
+  username?: string;
+  bio?: string;
+  image?: string;
+}
+
 export interface UserEntity {
   toObject: () => IUser;
   hashPassword: () => Promise<UserEntity>;
-  updateUser: (updateUser: IUser) => Promise<UserEntity>;
+  updateUser: (updateUser: IUserUpdateParams) => Promise<UserEntity>;
   generateToken: () => UserEntity;
 }
 
 const User = (initUser: IUser): UserEntity => ({
   toObject: () => initUser,
   hashPassword: async () => User({ ...initUser, password: await hash(initUser.password) }),
-  updateUser: async (updateUser: IUser) => {
+  updateUser: async (updateUser: IUserUpdateParams) => {
     const {email, username, password, image, bio} = updateUser
     const hashPassword = password ? await hash(password) : initUser.password
     
