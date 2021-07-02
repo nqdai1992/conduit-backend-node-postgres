@@ -1,8 +1,10 @@
 import passport from 'passport';
 import { Strategy as JWTStrategy, ExtractJwt} from 'passport-jwt'
 import db from '@/infastructure/database'
+import { NextFunction, Request, Response } from 'express';
 
-passport.use(new JWTStrategy({
+
+const jwtStrategy = new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET
 }, function(jwt_payload, done) {
@@ -21,7 +23,18 @@ passport.use(new JWTStrategy({
     }
     
   })
-}));
+})
 
-export const authenMiddleware = passport.authenticate('jwt', { session: false })
+const authenticate = passport.use(jwtStrategy).authenticate('jwt', { session: false })
+
+export const optionalAuthenMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+  if (req.header('Authorization')) {
+    authenticate(req, res, next)
+  } else {
+    next()
+  }
+}
+
+export const requiredAuthenMiddleware = authenticate
+
 export default passport;
