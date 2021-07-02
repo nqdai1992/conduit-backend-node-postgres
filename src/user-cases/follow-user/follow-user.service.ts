@@ -17,6 +17,7 @@ class FollowUserService {
           'user is not found'
         )
       }
+      
       const following = await FollowUserRepository.createFollowing(followerId, target.id)
             
       return {
