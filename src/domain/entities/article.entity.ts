@@ -5,14 +5,15 @@ export interface IArticeAuthor {
   following: string
 }
 export interface IArticle {
+  id?: number;
   title: string;
-  slug: string;
-  description: string;
-  body: string;
-  tagList: string[];
-  favorited: boolean;
-  favoritesCount: number;
-  author: IArticeAuthor;
+  slug?: string;
+  description?: string;
+  body?: string;
+  tagList?: string[];
+  favorited?: boolean;
+  favoritesCount?: number;
+  author?: IArticeAuthor;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -52,7 +53,7 @@ const mergeTagList = (tagList1: string[], tagList2: string[]) => {
 
 
 const Article = (initArticle: IArticle): ArticleEntity => {
-  initArticle.slug = createSlug(initArticle.title)
+  initArticle.slug = initArticle.slug || createSlug(initArticle.title)
   initArticle.tagList = initArticle.tagList.map(tag => tag.toLowerCase())
 
   return {

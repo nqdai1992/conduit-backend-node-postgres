@@ -15,7 +15,7 @@ CREATE TABLE articles (
     id SERIAL PRIMARY KEY,
     author_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(255),
-    slug VARCHAR(255),
+    slug VARCHAR(1000) UNIQUE,
     description TEXT,
     body TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
