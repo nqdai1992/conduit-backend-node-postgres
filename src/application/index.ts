@@ -10,6 +10,7 @@ import GetProfileController from '@/user-cases/get-profile/get-profile.controlle
 import FollowUserController from '@/user-cases/follow-user/follow-user.controller';
 import UnfollowUserController from '@/user-cases/unfollow-user/unfollow-user.controller';
 import CreateArticleController from '@/user-cases/create-article/create-article.controller';
+import FavoriteArticleController from '@/user-cases/favorite-article/favorite-article.controller'
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ app.use(GetProfileController)
 app.use(FollowUserController)
 app.use(UnfollowUserController)
 app.use(CreateArticleController)
+app.use(FavoriteArticleController)
 
 app.use(errorMiddleware);
 

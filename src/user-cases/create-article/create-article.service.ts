@@ -14,8 +14,6 @@ class CreateArticleService {
 
     const promiseResultList =  await Promise.allSettled(tags.map(async (tag) => await CreateArticleRepository.createArticleTag(tag, createdArticle.id)))
 
-    console.log(promiseResultList)
-
     const newTagList = promiseResultList.filter(result =>  result.status === 'fulfilled').map((result: PromiseFulfilledResult<ITag>) => result.value.label)
 
     return {

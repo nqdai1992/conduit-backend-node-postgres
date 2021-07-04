@@ -27,7 +27,7 @@ const UserSignUpRequestSchema = {
 
 const UserSignUpRequestDTO = (requestBody: IUserSignUpRequestBody): IUserSignUpRequestDTO => {
   const isValid = ajv.validate(UserSignUpRequestSchema, requestBody)
-  console.log(ajv.errors)
+
   if (!isValid) throw new APIError(
     'BAD REQUEST',
     HttpStatusCode.BAD_REQUEST,

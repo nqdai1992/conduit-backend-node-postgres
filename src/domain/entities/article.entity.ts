@@ -2,7 +2,7 @@ export interface IArticeAuthor {
   username: string,
   bio: string,
   image: string,
-  following: string
+  following: boolean
 }
 export interface IArticle {
   id?: number;
