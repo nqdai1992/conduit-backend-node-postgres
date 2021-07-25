@@ -44,10 +44,13 @@ CREATE TABLE favorites (
 
 DROP TABLE IF EXISTS comments CASCADE;
 CREATE TABLE comments (
+    id SERIAL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     article_id INTEGER REFERENCES articles(id) ON DELETE CASCADE,
     content TEXT,
-    PRIMARY KEY(user_id, article_id)
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(user_id, article_id, id)
 );
 
 DROP TABLE IF EXISTS articles_tags CASCADE;
