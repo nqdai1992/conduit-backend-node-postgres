@@ -6,3 +6,7 @@
 
 ## Devlopment Mode
 1. Run `npm run dev` to run devlopment mode
+
+## Documents
+1. [User stories](UserStories.md)
+
