@@ -9,4 +9,5 @@
 
 ## Documents
 1. [User stories](UserStories.md)
+2. [CRC card](CRC-card.png)
 

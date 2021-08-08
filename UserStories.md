@@ -1,6 +1,6 @@
 # User stories
 
-* As a user, I want to view the favorited article list in home page, so that I can find interesting topic easily
+* As a user, I want to view the article list in home page, so that I can read the articles of author who I followed
 * As a user, I want to to choose an article in home page, so that I can read an article
 * As a user, I want to login in system, so that I can use other features such as, writing article, comment...
 * As a user, I want to sign out system, so that my account has more security when using in other computer 
