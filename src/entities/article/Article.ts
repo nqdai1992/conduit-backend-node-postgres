@@ -1,4 +1,5 @@
 import {v4 as uuidv4} from 'uuid'
+import TagList from '../tagList/TagList';
 import User from "../user/User";
 
 export default class Article {
@@ -8,7 +9,7 @@ export default class Article {
     #description: string;
     #author: User;
     #status: string;
-    #tags: string[];
+    #tags: TagList;
     #createdAt: Date;
     #updateAt: Date;
 
@@ -19,7 +20,7 @@ export default class Article {
         this.#description = description || ''
         this.#author = author
         this.#status = status
-        this.#tags = tags || []
+        this.#tags = new TagList(tags)
         this.#createdAt = createdAt ? new Date(createdAt) : null
         this.#updateAt = updatedAt ? new Date(updatedAt) : null
     }
@@ -56,7 +57,7 @@ export default class Article {
         return this.#status
     }
 
-    get tags (): string[] {
+    get tags (): TagList {
         return this.#tags
     }
 
