@@ -1,3 +1,5 @@
+import { formmatDateOnSlug } from "@/utils/date";
+
 export interface IArticeAuthor {
   username: string,
   bio: string,
@@ -40,7 +42,7 @@ const createSlug = (title: string) => {
     .replace(/\s+/g, '-') // collapse whitespace and replace by -
     .replace(/-+/g, '-'); // collapse dashes
 
-  return `${title}-${Date.now()}`;
+  return `${title}-${formmatDateOnSlug(Date.now())}`;
 }
 
 const mergeTagList = (tagList1: string[], tagList2: string[]) => {
