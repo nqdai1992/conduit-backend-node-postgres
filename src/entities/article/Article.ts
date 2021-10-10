@@ -45,8 +45,16 @@ export default class Article {
         return this.#content
     }
 
+    set content (newContent: string) {
+        this.#content = newContent
+    }
+
     get description (): string {
         return this.#description
+    }
+
+    set description (newDescription: string) {
+        this.#description = newDescription
     }
 
     get author (): User {
@@ -55,6 +63,10 @@ export default class Article {
 
     get status (): string {
         return this.#status
+    }
+
+    set status (newStatus: string) {
+        this.#status = newStatus
     }
 
     get tags (): TagList {
