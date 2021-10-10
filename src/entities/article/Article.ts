@@ -42,7 +42,7 @@ export default class Article {
     this.#updateAt = updatedAt ? new Date(updatedAt) : null;
   }
 
-  static createSlug(title: string): string {
+  private static createSlug(title: string): string {
     title = title.replace(/^\s+|\s+$/g, ''); // trim
     title = title.toLowerCase();
 
@@ -109,6 +109,20 @@ export default class Article {
       createdAt,
       updatedAt,
     );
+  }
+
+  increaseFavorite () {
+    this.#favorites += 1
+
+    return this
+  }
+
+  decreaseFavorite () {
+    if (this.#favorites <= 0) return this
+    
+    this.#favorites -= 1
+
+    return this
   }
 
   get id(): string {
