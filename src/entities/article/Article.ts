@@ -11,6 +11,7 @@ export default class Article {
   #author: User;
   #status: string;
   #slug: string;
+  #favorites: number;
   #tags: TagList;
   #createdAt: Date;
   #updateAt: Date;
@@ -23,6 +24,7 @@ export default class Article {
     author: User,
     status: string,
     slug: string,
+    favorites: number,
     tags?: string[],
     createdAt?: string,
     updatedAt?: string,
@@ -34,6 +36,7 @@ export default class Article {
     this.#author = author;
     this.#status = status;
     this.#slug = slug;
+    this.#favorites = favorites || 0;
     this.#tags = new TagList(tags);
     this.#createdAt = createdAt ? new Date(createdAt) : null;
     this.#updateAt = updatedAt ? new Date(updatedAt) : null;
@@ -56,7 +59,7 @@ export default class Article {
       .replace(/\s+/g, '-') // collapse whitespace and replace by -
       .replace(/-+/g, '-'); // collapse dashes
 
-    return `${title}-${ formmatDateOnSlug(Date.now())}`;
+    return `${title}-${formmatDateOnSlug(Date.now())}`;
   }
 
   static createArticleWithoutId(
@@ -75,6 +78,7 @@ export default class Article {
       author,
       status,
       this.createSlug(title),
+      0,
       tags,
     );
   }
@@ -87,6 +91,7 @@ export default class Article {
     author: User,
     status: string,
     slug: string,
+    favorites: number,
     tags?: string[],
     createdAt?: string,
     updatedAt?: string,
@@ -99,6 +104,7 @@ export default class Article {
       author,
       status,
       slug,
+      favorites,
       tags,
       createdAt,
       updatedAt,
@@ -143,6 +149,10 @@ export default class Article {
 
   get slug() {
     return this.#slug;
+  }
+
+  get favorites(): number {
+    return this.#favorites;
   }
 
   get tags(): TagList {

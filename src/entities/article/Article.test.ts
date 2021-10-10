@@ -38,8 +38,9 @@ describe('Article', () => {
             const articleId = 'fake-id'
             const slug = 'new-article'
             const author = User.createUserWithoutId('author1', 'author1@mail.com')
+            const favorites = 10
 
-            const article = Article.createArticleWithId(articleId, title, content, description, author, status, slug)
+            const article = Article.createArticleWithId(articleId, title, content, description, author, status, slug, favorites)
 
             assert.equal(article.id, articleId)    
         })
