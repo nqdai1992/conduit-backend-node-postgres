@@ -32,6 +32,10 @@ export default class User {
         return this.#username
     }
 
+    get password (): string {
+        return this.#password
+    }
+
     get email (): string {
         return this.#email
     }
