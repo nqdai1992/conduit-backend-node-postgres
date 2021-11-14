@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 
 const jwtStrategy = new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET
+  secretOrKey: process.env.SECRET_KEY
 }, function(jwt_payload, done) {
   const userId = jwt_payload.id
   db.query('SELECT * FROM users WHERE id=$1', [userId], (err, res) => {

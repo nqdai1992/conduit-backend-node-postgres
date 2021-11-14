@@ -4,12 +4,12 @@ import User from '../user/User';
 import Article from './Article';
 describe('Article', () => {
   describe('.createArticleWithoutId', () => {
-    it('returns a new article has id', () => {
+    it('returns a new article has id', async () => {
       const title = 'New article';
       const content = 'New content';
       const description = 'New description';
       const status = 'draft';
-      const author = User.createUserWithoutId('author1', 'author1@mail.com');
+      const author = await User.createUserWithoutId('author1', 'author1@mail.com', 'test123');
 
       const newArticle = Article.createArticleWithoutId(
         title,
@@ -22,12 +22,12 @@ describe('Article', () => {
       assert.isNotNull(newArticle.id);
     });
 
-    it('returns a new article has slug', () => {
+    it('returns a new article has slug', async () => {
       const title = 'New article';
       const content = 'New content';
       const description = 'New description';
       const status = 'draft';
-      const author = User.createUserWithoutId('author1', 'author1@mail.com');
+      const author = await User.createUserWithoutId('author1', 'author1@mail.com', 'test123');
 
       const newArticle = Article.createArticleWithoutId(
         title,
@@ -42,14 +42,14 @@ describe('Article', () => {
   });
 
   describe('.createArticleWithId', () => {
-    it('returns a valid article', () => {
+    it('returns a valid article', async () => {
       const title = 'New article';
       const content = 'New content';
       const description = 'New description';
       const status = 'draft';
       const articleId = 'fake-id';
       const slug = 'new-article';
-      const author = User.createUserWithoutId('author1', 'author1@mail.com');
+      const author = await User.createUserWithoutId('author1', 'author1@mail.com', 'test123');
       const favorites = 10;
 
       const article = Article.createArticleWithId(
@@ -68,12 +68,12 @@ describe('Article', () => {
   });
 
   describe('.createSlug', () => {
-    it('should return a valid slug', () => {
+    it('should return a valid slug', async () => {
       const title = 'New article';
       const content = 'New content';
       const description = 'New description';
       const status = 'draft';
-      const author = User.createUserWithoutId('author1', 'author1@mail.com');
+      const author = await User.createUserWithoutId('author1', 'author1@mail.com', 'test123');
       const today = Date.now();
 
       const article = Article.createArticleWithoutId(
@@ -89,14 +89,14 @@ describe('Article', () => {
   });
 
   describe('.increaseFavorites', () => {
-    it('should increase the favorites of the article by one', () => {
+    it('should increase the favorites of the article by one', async () => {
       const title = 'New article';
       const content = 'New content';
       const description = 'New description';
       const status = 'draft';
       const articleId = 'fake-id';
       const slug = 'new-article';
-      const author = User.createUserWithoutId('author1', 'author1@mail.com');
+      const author = await User.createUserWithoutId('author1', 'author1@mail.com', 'test123');
       const favorites = 10;
       const article = Article.createArticleWithId(
         articleId,
@@ -116,14 +116,14 @@ describe('Article', () => {
   });
 
   describe('.decreaseFavorites', () => {
-    it('should decrease the favorites of the article by one', () => {
+    it('should decrease the favorites of the article by one', async () => {
       const title = 'New article';
       const content = 'New content';
       const description = 'New description';
       const status = 'draft';
       const articleId = 'fake-id';
       const slug = 'new-article';
-      const author = User.createUserWithoutId('author1', 'author1@mail.com');
+      const author = await User.createUserWithoutId('author1', 'author1@mail.com', 'test123');
       const favorites = 10;
       const article = Article.createArticleWithId(
         articleId,
@@ -141,14 +141,14 @@ describe('Article', () => {
       assert.equal(article.favorites, 9);
     });
 
-    it('should not decrease the favorites of the article if the favorites equal 0', () => {
+    it('should not decrease the favorites of the article if the favorites equal 0', async () => {
         const title = 'New article';
         const content = 'New content';
         const description = 'New description';
         const status = 'draft';
         const articleId = 'fake-id';
         const slug = 'new-article';
-        const author = User.createUserWithoutId('author1', 'author1@mail.com');
+        const author = await User.createUserWithoutId('author1', 'author1@mail.com', 'test123');
         const favorites = 0;
         const article = Article.createArticleWithId(
           articleId,

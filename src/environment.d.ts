@@ -5,9 +5,9 @@ declare global {
       PGHOST: string;
       PGPASSWORD: string;
       PGDATABASE: string;
-      PGPORT: number;
-      PORT: number;
-      JWT_SECRET: string;
+      PGPORT: string;
+      PORT: string;
+      SECRET_KEY: string;
       JWT_EXPIRES_IN: string;
     }
   }

@@ -1,7 +1,7 @@
 import User, { IUser } from "@/domain/entities/user.entity";
 import APIError from "@/errorHandler/APIError";
 import HttpStatusCode from "@/errorHandler/HttpStatusCode";
-import { compare } from "@/utils/password";
+import { compare } from "@/helpers/password";
 import userSigninRepository from "./user-signin.repository";
 
 class UserSignInService {
