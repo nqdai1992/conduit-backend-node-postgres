@@ -27,6 +27,7 @@
     "rimraf": "3.0.2",
     "sinon": "^11.1.2",
     "supertest": "^6.1.6",
+    "ts-auto-mock": "^3.5.0",
     "ts-node-dev": "1.1.8",
     "tsconfig-paths": "3.11.0",
     "tsutils": "3.20.0",
@@ -37,7 +38,8 @@
     "build": "tsc -p tsconfig.release.json",
     "lint": "eslint . --ext .ts,.tsx",
     "dev": "ts-node-dev --respawn --trace-warnings --transpile-only -r tsconfig-paths/register src/main.ts",
-    "test:unit": "mocha -r ts-node/register -r tsconfig-paths/register --recursive ./src/entities/**/*.test.ts ./src/utils/*.test.ts"
+    "test:unit": "mocha -r ts-node/register -r tsconfig-paths/register --recursive ./src/entities/**/*.test.ts ./src/utils/*.test.ts",
+    "test:api": "mocha -r dotenv/config -r ts-node/register -r tsconfig-paths/register --recursive ./src/controllers/**/*.test.ts"
   },
   "dependencies": {
     "ajv": "^8.6.3",

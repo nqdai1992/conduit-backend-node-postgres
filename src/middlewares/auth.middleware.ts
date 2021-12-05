@@ -3,7 +3,6 @@ import { Strategy as JWTStrategy, ExtractJwt} from 'passport-jwt'
 import db from '@/infastructure/database'
 import { NextFunction, Request, Response } from 'express';
 
-
 const jwtStrategy = new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.SECRET_KEY
