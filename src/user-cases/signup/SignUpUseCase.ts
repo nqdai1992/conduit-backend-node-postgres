@@ -1,31 +1,56 @@
-import User from "@/entities/user/User";
-import SignUpControllerInputPort from "./SignUpControllerInputPort";
-import SignUpPersistenceOutputPort from "./SignUpPersistenceOutputPort";
+import User from '@/entities/user/User';
+import SignUpUseCaseInterface, {
+  SignUpErrors,
+  SignUpResult,
+} from './SignUpUseCaseInterface';
+import SignUpPersistenceInterface from './SignUpPersistenceInterface';
 import jsonwebtoken from 'jsonwebtoken';
 
-export default class SignUpUseCase implements SignUpControllerInputPort {
-    constructor (private signUpPersistence: SignUpPersistenceOutputPort) {}
+export default class SignUpUseCase implements SignUpUseCaseInterface {
+  constructor(private signUpPersistence: SignUpPersistenceInterface) {}
 
-    async userIsExisted (username: string, email: string): Promise<boolean> {
-        const user = await this.signUpPersistence.findUser(username, email)
+  private async userIsExisted(
+    username: string,
+    email: string,
+  ): Promise<boolean> {
+    const user = await this.signUpPersistence.findUser(username, email);
 
-        if (!user) return false
+    if (!user) return false;
 
-        return true
+    return true;
+  }
+
+  private createToken(user: User): string {
+    return jsonwebtoken.sign(
+      {
+        email: user.email,
+        username: user.username,
+      },
+      process.env.SECRET_KEY,
+    );
+  }
+
+  async signUp(
+    username: string,
+    email: string,
+    password: string,
+  ): Promise<SignUpResult> {
+    const userIsExisted = await this.userIsExisted(username, email);
+
+    if (userIsExisted) {
+      return {
+        error: SignUpErrors.USER_IS_EXISTED,
+      };
     }
 
-    createToken (user: User): string {
-        return jsonwebtoken.sign({
-            email: user.email,
-            username: user.username
-        }, process.env.SECRET_KEY)
-    }
+    const user = await User.createUserWithoutId(username, email, password);
+    const token = this.createToken(user);
 
-    async registerUser (username: string, email: string, password: string): Promise<User> {
-        const user = await User.createUserWithoutId(username, email, password)
-        
-        await this.signUpPersistence.saveUser(user.username, user.email, user.password)
+    await this.signUpPersistence.saveUser(user);
 
-        return user
-    }
+    return {
+      user,
+      token,
+    };
+  }
 }

@@ -64,5 +64,13 @@ export default class User {
         const isMatchPassword = await compare(password, this.#password)
 
         return isMatchEmail && isMatchPassword 
-    } 
+    }
+
+    toString () {
+        return `[User] {
+            email: ${this.#email},
+            username: ${this.username},
+            uuid: ${this.#id}
+        }`
+    }
 };

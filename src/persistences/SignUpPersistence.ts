@@ -1,11 +1,11 @@
 import db from '../infastructure/database';
-import SignUpPersistenceOutputPort from '../user-cases/signup/SignUpPersistenceOutputPort';
+import SignUpPersistenceInterface from '../user-cases/signup/SignUpPersistenceInterface';
 
-class SignUpPersistence implements SignUpPersistenceOutputPort {
+class SignUpPersistence implements SignUpPersistenceInterface {
   async findUser(
     username: string,
     email: string,
-  ): Promise<{ username: string; email: string } | null> {
+  ) {
     try {
       const {
         rows,
@@ -24,13 +24,13 @@ class SignUpPersistence implements SignUpPersistenceOutputPort {
       throw new Error(err.message);
     }
   }
-  async saveUser(username: string, email: string, password: string) {
+  async saveUser(user) {
     try {
       const {
         rows,
       } = await db.query(
-        'INSERT INTO users (email, password, username) VALUES ($1, $2, $3) RETURNING *',
-        [email, password, username],
+        'INSERT INTO users (uuid, email, password, username) VALUES ($1, $2, $3, $4) RETURNING *',
+        [user.id, user.email, user.password, user.username],
       );
 
       return {

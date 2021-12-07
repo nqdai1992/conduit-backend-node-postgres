@@ -3,7 +3,9 @@ import { Router } from 'express';
 import AppRequest from '@/application/app-request.interface';
 import APIError from '@/errorHandler/APIError';
 import HttpStatusCode from '@/errorHandler/HttpStatusCode';
-import SignUpControllerInputPort from '@/user-cases/signup/SignUpControllerInputPort';
+import SignUpUseCaseInterface, {
+  SignUpErrors,
+} from '@/user-cases/signup/SignUpUseCaseInterface';
 
 const ajv = new Ajv();
 
@@ -28,7 +30,7 @@ const UserSignUpRequestSchema = {
 };
 
 export default function SignUpController(
-  signUpUseCase: SignUpControllerInputPort,
+  signUpUseCase: SignUpUseCaseInterface,
 ) {
   const router = Router();
   const path = '/api/users';
@@ -45,51 +47,40 @@ export default function SignUpController(
       }>,
       res,
     ) => {
-      try {
-        const isValid = ajv.validate(UserSignUpRequestSchema, req.body);
+      const isValid = ajv.validate(UserSignUpRequestSchema, req.body);
 
-        if (!isValid)
-          throw new APIError(
-            'BAD REQUEST',
-            HttpStatusCode.BAD_REQUEST,
-            true,
-            ajv.errors[0].message,
-          );
-
-        const { user: userInfo } = req.body;
-
-        const userIsExisted = await signUpUseCase.userIsExisted(
-          userInfo.username,
-          userInfo.email,
+      if (!isValid)
+        throw new APIError(
+          'BAD REQUEST',
+          HttpStatusCode.BAD_REQUEST,
+          true,
+          ajv.errors[0].message,
         );
 
-        if (userIsExisted) {
-          throw new APIError(
-            'CONFLICT',
-            HttpStatusCode.CONFLICT,
-            true,
-            'user is already exist',
-          );
-        }
+      const { user } = req.body;
 
-        const user = await signUpUseCase.registerUser(
-          userInfo.username,
-          userInfo.email,
-          userInfo.password,
+      const signUpResult = await signUpUseCase.signUp(
+        user.username,
+        user.email,
+        user.password,
+      );
+
+      if (signUpResult.error === SignUpErrors.USER_IS_EXISTED) {
+        throw new APIError(
+          'CONFLICT',
+          HttpStatusCode.CONFLICT,
+          true,
+          'user is already exist',
         );
-
-        const token = signUpUseCase.createToken(user);
-
-        res.status(201).json({
-          user: {
-            email: user.email,
-            username: user.username,
-            token,
-          },
-        });
-      } catch (err) {
-        res.status(500).send(err.message);
       }
+
+      res.status(HttpStatusCode.CREATED).json({
+        user: {
+          email: signUpResult.user.email,
+          username: signUpResult.user.username,
+          token: signUpResult.token,
+        },
+      });
     },
   );
 
